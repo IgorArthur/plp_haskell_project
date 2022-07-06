@@ -30,7 +30,7 @@ clientOptions = "\n-----------------------------\n" ++
                   "\n(1) Visualizar status do serviço\n" ++
                   "(2) Avaliar serviço\n" ++
                   "(3) Visualizar estatísticas\n" ++
-                  "(6) VOLTAR\n" ++
+                  "(4) VOLTAR\n" ++
                   "\n-----------------------\n"
 
 mechanOptions :: String
@@ -41,5 +41,5 @@ mechanOptions = "\n---------------------------------\n" ++
                   "\n(1) Inserir orçamento\n" ++
                   "(2) Editar orçamento\n" ++
                   "(3) Visualizar estatísticas\n" ++
-                  "(5) VOLTAR\n" ++
+                  "(4) VOLTAR\n" ++
                   "\n-----------------------\n"
