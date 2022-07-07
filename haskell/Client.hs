@@ -15,7 +15,7 @@ data Cliente = Cliente
 criarCliente :: Id -> NomeCliente -> Contato -> IO()
 criarCliente cod nome contato = do
   let cliente = Cliente {cod = cod, nome = nome, contato = contato}
-  file <- appendFile "clientes.txt" ("\n" ++ show cliente)
+  file <- appendFile "db/clientes.txt" ("\n" ++ show cliente)
   putStrLn "Cliente cadastrado com sucesso!"
 
 
