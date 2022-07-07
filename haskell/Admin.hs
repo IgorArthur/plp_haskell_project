@@ -15,5 +15,5 @@ data Admin = Admin
 criarAdmin :: Id -> Nome -> Role -> IO()
 criarAdmin cod nome funcao = do
   let admin = Admin {cod = cod, nome = nome, funcao = funcao}
-  file <- appendFile "admin.txt" ("\n" ++ show admin)
+  file <- appendFile "db/admin.txt" ("\n" ++ show admin)
   putStrLn "Admin cadastrado com sucesso!"
