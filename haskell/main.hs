@@ -19,14 +19,18 @@ start = do
     adminInteraction (read opcA)
   else if opc == 2 then do
     putStr clientOptions
+    opcC <- getLine
+    clientInteracion (read opcC)
   else if opc == 3 then do
-    putStr mechanOptions 
+    putStr mechanOptions
+    opcM <- getLine
+    mechanInteracion (read opcM)
   else if opc == 4 then do
     putStr "\nAdeus!\n"
   else
     putStr "\nOpção Inválida\n"
 
-adminInteraction ::Int -> IO()
+adminInteraction::Int -> IO()
 adminInteraction opcAdmin = do
 
   if opcAdmin == 1 then do
@@ -43,3 +47,9 @@ adminInteraction opcAdmin = do
     criarCliente 1 (read nomeCliente) (read contatoCliente)
   else
     start
+
+clientInteracion::Int -> IO()
+clientInteraction opcClient = do
+
+mechanInteracion::Int -> IO()
+mechanInteracion opcMechan = do
