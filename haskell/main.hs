@@ -1,6 +1,7 @@
-import Mechan
+import Admin
 
 
 main = do
   nome <- getLine
-  criarMecanico 1 nome
+  contato <- getLine
+  criarAdmin 1 nome contato

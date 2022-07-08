@@ -1,3 +1,4 @@
 
 Mecanico {cod = 1, nome = "VANDERSON"}
 Mecanico {cod = 1, nome = "legal"}
+Mecanico {cod = 1, nome = "vanderson", contato = "857856768"}
