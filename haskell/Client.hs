@@ -11,7 +11,6 @@ data Cliente = Cliente
   }
   deriving (Read, Show)
 
-
 criarCliente :: Id -> NomeCliente -> Contato -> IO()
 criarCliente cod nome contato = do
   let cliente = Cliente {cod = cod, nome = nome, contato = contato}

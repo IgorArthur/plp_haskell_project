@@ -1,7 +1,8 @@
 module Chat where
 
 menu :: String
-menu = 
+menu =    
+          "\nBem-vindo ao Gerenciador de Oficina 3000!\n" ++
           "\nQual o seu tipo de usuário?\n" ++
           "\n(1) Administrador\n" ++
           "(2) Mecânico\n" ++
@@ -38,8 +39,7 @@ mechanOptions = "\n---------------------------------\n" ++
                   "Funcionalidades do Mecânico  |" ++
                   "\n---------------------------------\n" ++
                   "\nEscolha uma opção\n" ++
-                  "\n(1) Inserir orçamento\n" ++
-                  "(2) Editar orçamento\n" ++
-                  "(3) Visualizar estatísticas\n" ++
-                  "(4) VOLTAR\n" ++
+                  "\n(1) Editar serviço\n" ++
+                  "(2) Visualizar estatísticas\n" ++
+                  "(3) VOLTAR\n" ++
                   "\n-----------------------\n"
