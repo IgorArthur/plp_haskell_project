@@ -1,0 +1,4 @@
+
+Cliente {cod = 1, nome = "Andreza", contato = "15244132"}
+Cliente {cod = 1, nome = "Teste", contato = "152451342"}
+Cliente {cod = 1, nome = "Novo teste", contato = "1542"}
