@@ -1,2 +1,0 @@
-
-Cliente {cod = 1, nome = "Vanessa", contato = "89882882"}

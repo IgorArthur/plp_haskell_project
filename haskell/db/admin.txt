@@ -1,2 +1,0 @@
-
-Admin {cod = 1, nome = "Vanessa", funcao = "Administrador(a)"}
