@@ -1,6 +1,7 @@
 module Utils where
 
-import TypeClasses
+import Candy
+import Drink
 
 import System.IO ( hFlush, stdout )
 import System.Process
@@ -22,6 +23,12 @@ waitFiveSeconds = threadDelay $ 5 * oneSecond
 continue = do
   _ <- input "\nDigite algo para continuar: "
   return ()
+
+getNewItems :: (Item e, Entity e) => [e] -> [Int] -> [(Int, e)] -> IO [e]
+getNewItems allItems itemsId itemTupleWithNewScore = do
+  let currentItems = [i | i <- allItems, not $ (entityId i) `elem` itemsId]
+  let newItems = currentItems ++ [i | (_, i) <- itemTupleWithNewScore]
+  return newItems
 
 displayEntity :: Show a => [a] -> String -> IO ()
 displayEntity entities msg = do
@@ -45,6 +52,8 @@ existsEntityWithMsg entities msg function = do
   else
     return ()
 
+existsPerson :: Person a => [a] -> String -> Bool
+existsPerson people ssn = not $ null [p | p <- people, personSSN p == ssn]
 
 listOfAnythingToListOfToString :: (Stringfy a) => [a] -> [String]
 listOfAnythingToListOfToString [] = []
@@ -62,7 +71,12 @@ showList' [] = ""
 showList' (x:xs) = (show x) ++ showList' xs
 
 -- just to avoid circular import
+listOfStringToListOfCandy l = map read l :: [Candy]
+listOfStringToListOfDrink l = map read l :: [Drink]
 stringToListOfString str = read str :: [String]
+
+stringToListOfCandies str = listOfStringToListOfCandy $ stringToListOfString str
+stringToListOfDrinks str = listOfStringToListOfDrink $ stringToListOfString str
 
 listOfStringToString [] = ""
 listOfStringToString (x:xs) = x ++ "," ++ listOfStringToString xs
@@ -77,6 +91,11 @@ findElem' (x:xs) elem index
 findFirstOcurr str elem = findElem' str elem 0
 
 getQuantityItem str = read (take ((findFirstOcurr str ',')) str) :: Int
+stringToDrink str = read (drop ((findFirstOcurr str ',') + 1) str) :: Drink
+stringToCandy str = read (drop ((findFirstOcurr str ',') + 1) str) :: Candy
+
+stringToTupleOfDrinks str = (getQuantityItem str, stringToDrink str)
+stringToTupleOfCandies str = (getQuantityItem str, stringToCandy str)
 
 listOfTupleToListOfString :: (Show a, Stringfy b) => [(a, b)] -> [String]
 listOfTupleToListOfString [] = []

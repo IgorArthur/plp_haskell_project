@@ -1,45 +1,73 @@
 module Chat where
 
-menu :: String
-menu = 
-          "\nQual o seu tipo de usuário?\n" ++
-          "\n(1) Administrador\n" ++
-          "(2) Mecânico\n" ++
-          "(3) Cliente\n" ++
+
+
+slogan:: String
+slogan =  "--------------------------------------------------------------------------------------\n"++
+        "                                                                                     |\n" ++
+         " ██████  █████  ███    ██ ██████  ██    ██     ██       █████  ███    ██ ██████      |\n" ++
+         "██      ██   ██ ████   ██ ██   ██  ██  ██      ██      ██   ██ ████   ██ ██   ██     |\n" ++
+         "██      ███████ ██ ██  ██ ██   ██   ████       ██      ███████ ██ ██  ██ ██   ██     |\n" ++
+         "██      ██   ██ ██  ██ ██ ██   ██    ██        ██      ██   ██ ██  ██ ██ ██   ██     |\n" ++
+         " ██████ ██   ██ ██   ████ ██████     ██        ███████ ██   ██ ██   ████ ██████      |\n                                                                                     |\n" ++
+        "   ___     .----.     ___" ++      "       ___  ___  ___  ___  ___.---------------.             |\n" ++
+        "   \\  -.  /      \\  .-  /" ++    "     .'\\__\\'\\__\\'\\__\\'\\__\\'\\__,`   .  ____ ___ \\            |\n" ++
+        "   > -=.\\/        \\/.=- <" ++    "     |\\/ __\\/ __\\/ __\\/ __\\/ _:\\   |`.  \\  \\___ \\           |\n" ++
+         "   > -='/\\        /\\'=- <" ++   "     \\'\\__\\'\\__\\'\\__\\'\\__\\'\\_`. \\__|--`. \\  \\___ \\          |\n" ++
+         "  /__.-'  \\      /  '-.__\\" ++  "     \\\\/ __\\/ __\\/ __\\/ __\\/ __:                 \\         |\n" ++
+         "           '-..-'" ++             "               \\\\'\\__\\'\\__\\'\\__\\ \\__\\'\\_:-----------------'         |\n" ++
+                                            "                                 \\\\/   \\/   \\/   \\/   \\/ :                 |         |\n" ++
+                                            "                                  \\|______________________:________________|         |\n                                                                                     |\n" ++
+                                             "--------------------------------------------------------------------------------------\n\n"
+
+
+options :: String
+options = 
+          "\nComo você deseja logar no sistema?\n" ++
+          "\n(1) Logar como dono\n" ++
+          "(2) Logar como funcionário\n" ++
+          "(3) Logar como cliente\n" ++
           "(4) Sair\n" ++
           "\n-----------------------\n"
 
-adminOptions :: String
-adminOptions = "\n--------------------------\n" ++
-               "Funcionalidades do Administrador |" ++
+ownerOptions :: String
+ownerOptions = "\n--------------------------\n" ++
+               "Funcionalidades do dono  |" ++
                "\n--------------------------\n" ++
-               "\nEscolha uma operação\n" ++
-               "\n(1) Cadastrar mecânico\n" ++
-               "(2) Cadastrar cliente\n" ++
-               "(3) Visualizar estatísticas\n" ++
-               "(4) Cadastrar serviço\n" ++
-               "(5) Editar serviço\n" ++
-               "(6) VOLTAR\n" ++
+               "\nO que você deseja fazer?\n" ++
+               "\n(1) Cadastrar funcionário\n" ++
+               "(2) Cadastrar doce\n" ++
+               "(3) Cadastrar bebida\n" ++
+               "(4) Remover doce\n" ++
+               "(5) Remover bebida\n" ++
+               "(6) Listar funcionários\n" ++
+               "(7) Listar doces\n" ++
+               "(8) Listar bebidas\n" ++
+               "(9) Listar vendas\n" ++
+               "(10) VOLTAR\n" ++
                "\n-----------------------\n"
 
-clientOptions :: String
-clientOptions = "\n-----------------------------\n" ++
+customerOptions :: String
+customerOptions = "\n-----------------------------\n" ++
                   "Funcionalidades do Cliente  |" ++
                   "\n-----------------------------\n" ++
-                  "\nEscolha uma operação\n" ++
-                  "\n(1) Visualizar status do serviço\n" ++
-                  "(2) Avaliar serviço\n" ++
-                  "(3) Visualizar estatísticas\n" ++
-                  "(4) VOLTAR\n" ++
+                  "\nO que você deseja fazer?\n" ++
+                  "\n(1) Listar produtos bem avaliados\n" ++
+                  "(2) Exibir cardápio\n" ++
+                  "(3) Realizar compra\n" ++
+                  "(4) Listar suas compras\n" ++
+                  "(5) Avaliar uma compra\n" ++
+                  "(6) VOLTAR\n" ++
                   "\n-----------------------\n"
 
-mechanOptions :: String
-mechanOptions = "\n---------------------------------\n" ++
-                  "Funcionalidades do Mecânico  |" ++
+employeeOptions :: String
+employeeOptions = "\n---------------------------------\n" ++
+                  "Funcionalidades do Funcionário  |" ++
                   "\n---------------------------------\n" ++
-                  "\nEscolha uma opção\n" ++
-                  "\n(1) Inserir orçamento\n" ++
-                  "(2) Editar orçamento\n" ++
-                  "(3) Visualizar estatísticas\n" ++
-                  "(4) VOLTAR\n" ++
+                  "\nO que você deseja fazer?\n" ++
+                  "\n(1) Cadastrar cliente\n" ++
+                  "(2) Cadastrar venda\n" ++
+                  "(3) Listar clientes\n" ++
+                  "(4) Listar suas vendas\n" ++
+                  "(5) VOLTAR\n" ++
                   "\n-----------------------\n"
