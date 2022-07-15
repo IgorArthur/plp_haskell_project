@@ -1,2 +1,2 @@
-# plp_haskell_project
-PLP Haskell Project
+# PLP
+Atividades realizadas durante a disciplina Paradigmas de Linguagens de Computação

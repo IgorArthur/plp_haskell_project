@@ -1,3 +1,0 @@
-
-Service {cod = 1, nome = "Anderson", contato = "123", modelo = "Antigo", placa = "123ABC", codMecanico = 1}
-Service {cod = 123, nome = "Vanessa", contato = "898782187", modelo = "Carro", placa = "123asd", codMecanico = 1}

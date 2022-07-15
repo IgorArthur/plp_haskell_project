@@ -2,16 +2,34 @@ module DB where
 
 import qualified System.IO.Strict as SIO
 
-import Mechan
+import Employee
+import Candy
+import Customer
+import Purchase
+import Drink
+import TypeClasses
+import Utils
 
 type Interaction = (DB -> Int -> IO ())
 
 data DB = DB {
-  mechan :: [Mechan]
+  employees :: [Employee],
+  customers :: [Customer],
+  candies :: [Candy],
+  purchases :: [Purchase],
+  drinks :: [Drink],
+  currentIdEmployee :: Int,
+  currentIdCustomer :: Int,
+  currentIdCandy :: Int,
+  currentIdDrink :: Int,
+  currentIdPurchase :: Int
 } deriving (Show)
 
-listOfStringToListOfMechan l = map read l :: [Mechan]
-
+listOfStringToListOfEmployees l = map read l :: [Employee]
+listOfStringToListOfCustomers l = map read l :: [Customer]
+listOfStringToListOfCandies l = map read l :: [Candy]
+listOfStringToListOfPurchases l = map read l :: [Purchase]
+listOfStringToListOfDrinks l = map read l :: [Drink]
 stringToInt str = read str :: Int
 
 addToFile :: Stringfy a => FilePath -> a -> IO ()
@@ -32,12 +50,28 @@ entityToFile a entityFile idFile = do
 
 connect :: IO DB
 connect = do
-  mechanContent <- readFile' "mechan.text"
+  employeesContent <- readFile' "funcionario.txt"
+  customersContent <- readFile' "cliente.txt"
+  candiesContent <- readFile' "doce.txt"
+  purchasesContent <- readFile' "compra.txt"
+  drinksContent <- readFile' "bebida.txt"
 
-  currentIdEmployeeContent <- readFile' "mechanId.txt"
+  currentIdEmployeeContent <- readFile' "empId.txt"
+  currentIdCustomerContent <- readFile' "custId.txt"
+  currentIdCandyContent <- readFile' "candyId.txt"
+  currentIdDrinkContent <- readFile' "drinkId.txt"
+  currentIdPurchaseContent <- readFile' "purchaseId.txt"
 
-  let mechan = listOfStringToListOfMechan $ splitForFile $ mechanContent
+  let employees = listOfStringToListOfEmployees $ splitForFile $ employeesContent
+  let customers = listOfStringToListOfCustomers $ splitForFile $ customersContent
+  let candies = listOfStringToListOfCandies $ splitForFile $ candiesContent
+  let purchases = listOfStringToListOfPurchases $ splitForFile $ purchasesContent
+  let drinks = listOfStringToListOfDrinks $ splitForFile $ drinksContent
 
-  let currentIdMechan = stringToInt currentIdMechanContent
+  let currentIdEmployee = stringToInt currentIdEmployeeContent
+  let currentIdCustomer = stringToInt currentIdCustomerContent
+  let currentIdCandy = stringToInt currentIdCandyContent
+  let currentIdDrink = stringToInt currentIdDrinkContent
+  let currentIdPurchase = stringToInt currentIdPurchaseContent
 
-  return (DB mechan) 
+  return (DB employees customers candies purchases drinks currentIdEmployee currentIdCustomer currentIdCandy currentIdDrink currentIdPurchase) 
