@@ -3,33 +3,25 @@ module DB where
 import qualified System.IO.Strict as SIO
 
 import Employee
-import Candy
 import Customer
-import Purchase
-import Drink
 import TypeClasses
 import Utils
+import Servico
 
 type Interaction = (DB -> Int -> IO ())
 
 data DB = DB {
   employees :: [Employee],
   customers :: [Customer],
-  candies :: [Candy],
-  purchases :: [Purchase],
-  drinks :: [Drink],
+  servicos :: [Servico],
   currentIdEmployee :: Int,
   currentIdCustomer :: Int,
-  currentIdCandy :: Int,
-  currentIdDrink :: Int,
-  currentIdPurchase :: Int
+  currentIdServico :: Int
 } deriving (Show)
 
 listOfStringToListOfEmployees l = map read l :: [Employee]
 listOfStringToListOfCustomers l = map read l :: [Customer]
-listOfStringToListOfCandies l = map read l :: [Candy]
-listOfStringToListOfPurchases l = map read l :: [Purchase]
-listOfStringToListOfDrinks l = map read l :: [Drink]
+listOfStringToListOfServicos l = map read l :: [Servico]
 stringToInt str = read str :: Int
 
 addToFile :: Stringfy a => FilePath -> a -> IO ()
@@ -52,26 +44,18 @@ connect :: IO DB
 connect = do
   employeesContent <- readFile' "funcionario.txt"
   customersContent <- readFile' "cliente.txt"
-  candiesContent <- readFile' "doce.txt"
-  purchasesContent <- readFile' "compra.txt"
-  drinksContent <- readFile' "bebida.txt"
+  servicosContent <- readFile' "servico.txt"
 
-  currentIdEmployeeContent <- readFile' "empId.txt"
-  currentIdCustomerContent <- readFile' "custId.txt"
-  currentIdCandyContent <- readFile' "candyId.txt"
-  currentIdDrinkContent <- readFile' "drinkId.txt"
-  currentIdPurchaseContent <- readFile' "purchaseId.txt"
+  currentIdEmployeeContent <- readFile' "funcionarioId.txt"
+  currentIdCustomerContent <- readFile' "clienteId.txt"
+  currentIdServicoContent <- readFile' "servicoId.txt"
 
   let employees = listOfStringToListOfEmployees $ splitForFile $ employeesContent
   let customers = listOfStringToListOfCustomers $ splitForFile $ customersContent
-  let candies = listOfStringToListOfCandies $ splitForFile $ candiesContent
-  let purchases = listOfStringToListOfPurchases $ splitForFile $ purchasesContent
-  let drinks = listOfStringToListOfDrinks $ splitForFile $ drinksContent
+  let servicos = listOfStringToListOfServicos $ splitForFile $ servicosContent
 
   let currentIdEmployee = stringToInt currentIdEmployeeContent
   let currentIdCustomer = stringToInt currentIdCustomerContent
-  let currentIdCandy = stringToInt currentIdCandyContent
-  let currentIdDrink = stringToInt currentIdDrinkContent
-  let currentIdPurchase = stringToInt currentIdPurchaseContent
+  let currentIdServico = stringToInt currentIdServicoContent
 
-  return (DB employees customers candies purchases drinks currentIdEmployee currentIdCustomer currentIdCandy currentIdDrink currentIdPurchase) 
+  return (DB employees customers servicos currentIdEmployee currentIdCustomer currentIdServico) 
