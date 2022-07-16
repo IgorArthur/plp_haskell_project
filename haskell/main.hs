@@ -1,10 +1,10 @@
-import CustomerInteraction
-import OwnerInteraction
-import EmployeeInteraction
+import ClienteInteraction
+import AdminInteraction
+import FuncionarioInteraction
 import Chat
 import DB
 import Utils
-import EmployeeController
+import FuncionarioController
 import System.Exit
 
 import Prelude hiding (id)
@@ -26,121 +26,121 @@ start db = do
   if number == 1 then do
     clear
     oId <- input "Digite o seu ID: "
-    ownerInteraction db (read oId)
+    adminInteraction db (read oId)
   else if number == 2 then do
     clear
     fId <- input "Digite o seu ID: "
     clear
-    employeeInteraction db (read fId) 
+    funcionarioInteraction db (read fId) 
   else if number == 3 then do
     clear
     cId <- input "Digite o seu ID: "
     clear
-    customerInteraction db (read cId)
+    clienteInteraction db (read cId)
   else if number == 4 then do
     die "\nVolte sempre!\n"
   else
     start db
 
-ownerInteraction :: DB -> Int -> IO ()
-ownerInteraction db ownerId = do
+adminInteraction :: DB -> Int -> IO ()
+adminInteraction db adminId = do
   clear
-  let employees = DB.employees db
-  if not $ existsOwner employees then do
+  let funcionarios = DB.funcionarios db
+  if not $ existsAdmin funcionarios then do
     putStr "Administrador não cadastrado.\n"
     op <- input "\nGostaria de cadastrar um administrador?\n[S - SIM ou qualquer letra para NÃO]: "
     if head op `elem` "Ss" then do
-      registerOwner db start
+      registerAdmin db start
     else do
       start db
   else do
-    if not $ hasPermission ownerId employees "Administrador" then do
+    if not $ hasPermission adminId funcionarios "Administrador" then do
       putStr "O ID informado não pertence a um administrador.\n"
       waitThreeSeconds
       start db
     else do
       clear
-      putStr ownerOptions
+      putStr adminOptions
 
       option <- input "Número: "
 
       let number = read option
 
       if number == 1 then do
-        registerEmployee db ownerInteraction ownerId
+        registerFuncionario db adminInteraction adminId
       else if number == 2 then do
-        registerCustomer db ownerInteraction ownerId
+        registerCliente db adminInteraction adminId
       else if number == 3 then do
-        registerServico db ownerInteraction ownerId
+        registerServico db adminInteraction adminId
       else if number == 4 then do
-        removeServico db ownerInteraction ownerId
+        removeServico db adminInteraction adminId
       else if number == 5 then do
         start db
       else do
-        ownerInteraction db ownerId
+        adminInteraction db adminId
 
-customerInteraction :: DB -> Int -> IO ()
-customerInteraction db customerId = do
-  let customers = DB.customers db
+clienteInteraction :: DB -> Int -> IO ()
+clienteInteraction db clienteId = do
+  let clientes = DB.clientes db
 
-  if not $ existsEntity customers customerId then do
+  if not $ existsEntity clientes clienteId then do
     putStr "Não há um cliente com esse id.\n"
     waitTwoSeconds
     clear
     start db
   else do
     clear
-    putStr customerOptions
+    putStr clienteOptions
 
     option <- input "Número: "
     let num = read option
 
     if num == 1 then do
       clear
-      let list = showCustomerServices (DB.servicos db) customerId
+      let list = showClienteServices (DB.servicos db) clienteId
       if not $ null list then do
-        displayList list customerInteraction db customerId
+        displayList list clienteInteraction db clienteId
       else do
         putStr "Você não possui servicos pendentes.\n"
         waitThreeSeconds
-        customerInteraction db customerId
+        clienteInteraction db clienteId
     else if num == 2 then do
       clear
       continue
       clear
-      customerInteraction db customerId
+      clienteInteraction db clienteId
     else if num == 3 then do
       start db
     else do
-      customerInteraction db customerId
+      clienteInteraction db clienteId
 
-employeeInteraction :: DB -> Int -> IO()
-employeeInteraction db employeeId = do
-  let employees = DB.employees db 
+funcionarioInteraction :: DB -> Int -> IO()
+funcionarioInteraction db funcionarioId = do
+  let funcionarios = DB.funcionarios db 
 
-  if not $ existsEntity employees employeeId then do
+  if not $ existsEntity funcionarios funcionarioId then do
     putStr "Mecânico inexistente...\n"
     waitTwoSeconds
     clear
     start db
-  else if not $ hasPermission employeeId employees "Mecânico" then do
+  else if not $ hasPermission funcionarioId funcionarios "Mecânico" then do
     putStr "O ID informado não pertence a um mecânico.\n"
     waitTwoSeconds
     clear
     start db
   else do
     clear
-    putStr employeeOptions
+    putStr funcionarioOptions
 
     option <- input "Número: "
     let num = read option
 
     if num == 1 then do
-      registerServico db employeeInteraction employeeId
+      registerServico db funcionarioInteraction funcionarioId
     else if num == 2 then do
       clear
-      registerCustomer db employeeInteraction employeeId
+      registerCliente db funcionarioInteraction funcionarioId
     else if num == 3 then do
       start db
     else do
-      employeeInteraction db employeeId
+      funcionarioInteraction db funcionarioId

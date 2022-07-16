@@ -16,8 +16,8 @@ options =
           "(4) Sair\n" ++
           "\n-----------------------\n"
 
-ownerOptions :: String
-ownerOptions = "\n--------------------------\n" ++
+adminOptions :: String
+adminOptions = "\n--------------------------\n" ++
                "Funcionalidades do Administrador" ++
                "\n--------------------------\n" ++
                "\nO que você deseja fazer?\n" ++
@@ -28,8 +28,8 @@ ownerOptions = "\n--------------------------\n" ++
                "(5) Voltar\n" ++
                "\n-----------------------\n"
 
-customerOptions :: String
-customerOptions = "\n-----------------------------\n" ++
+clienteOptions :: String
+clienteOptions = "\n-----------------------------\n" ++
                   "Funcionalidades do Cliente" ++
                   "\n-----------------------------\n" ++
                   "\nO que você deseja fazer?\n" ++
@@ -38,8 +38,8 @@ customerOptions = "\n-----------------------------\n" ++
                   "(3) Voltar\n" ++
                   "\n-----------------------\n"
 
-employeeOptions :: String
-employeeOptions = "\n---------------------------------\n" ++
+funcionarioOptions :: String
+funcionarioOptions = "\n---------------------------------\n" ++
                   "Funcionalidades do Mecânico" ++
                   "\n---------------------------------\n" ++
                   "\nO que você deseja fazer?\n" ++
