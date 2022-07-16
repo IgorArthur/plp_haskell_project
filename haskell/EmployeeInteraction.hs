@@ -21,25 +21,23 @@ registerCustomer db employeeInteraction employeeId = do
     let employee = getEntityById employees employeeId
     let employeeSsn = Employee.ssn employee
     let employeeName = Employee.name employee
-    let employeeAge = Employee.age employee
     address <- input $ employeeName ++ ", informe seu endereço: "
 
-    let customer = (Customer customerId employeeSsn  employeeName employeeAge address)
+    let customer = (Customer customerId employeeSsn  employeeName address)
 
     saveCustomer db employeeInteraction employeeId customerId customer customers
 
   else do
     name <- input "Nome: "
-    age <- input "Idade: "
     address <- input "Endereço: "
 
-    let customer = (Customer customerId ssn name (read age) address)
+    let customer = (Customer customerId ssn name address)
 
     saveCustomer db employeeInteraction employeeId customerId customer customers
 
 saveCustomer :: DB -> Interaction -> Int -> Int -> Customer -> [Customer] -> IO()
 saveCustomer db employeeInteraction employeeId customerId customer customers = do
-  DB.entityToFile customer "cliente.txt" "custId.txt"
+  DB.entityToFile customer "cliente.txt" "clienteId.txt"
   let newDB = db {DB.customers = customers ++ [customer], DB.currentIdCustomer = customerId}
 
   clear

@@ -11,4 +11,4 @@ hasPermission :: Int -> [Employee] -> String -> Bool
 hasPermission id employees role = not $ null [e | e <- employees, (Employee.id e) == id, (Employee.role e) == role]
 
 existsOwner :: [Employee] -> Bool
-existsOwner employees =  not $ null [e | e <- employees, (Employee.role e) == "dono"]
+existsOwner employees =  not $ null [e | e <- employees, (Employee.role e) == "Administrador"]

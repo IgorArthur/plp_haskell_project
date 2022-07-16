@@ -2,10 +2,10 @@ module OwnerInteraction where
 
 import DB
 import Utils
-import Candy
-import Drink
 import Employee
-import CandyMenu
+import Servico
+import Customer
+import ServicoMenu
 
 getCredentials :: [Employee] -> IO [String]
 getCredentials employees = do
@@ -16,19 +16,7 @@ getCredentials employees = do
     getCredentials employees
   else do
     name <- input "Nome: "
-    age <- input "Idade: "
-    return [ssn,name,age]
-
-getRole :: IO String
-getRole = do
-   putStr "\n(1) Confeitero\n(2) Vendedor\n\n"
-   role <- input "Cargo: "
-   if role == "1" then 
-     return "confeitero"
-   else if role == "2" then
-     return "vendedor"
-   else
-     getRole
+    return [ssn,name]
 
 registerOwner :: DB -> (DB -> IO()) -> IO ()
 registerOwner db start = do
@@ -36,21 +24,21 @@ registerOwner db start = do
 
   let employeeId = (DB.currentIdEmployee db) + 1
 
-  [ssn, name, age] <- getCredentials employees
-  let role = "dono"
+  [ssn, name] <- getCredentials employees
+  let role = "Administrador"
 
   if existsPerson employees ssn then do
     putStr "CPF já cadastrado.\n"
     waitTwoSeconds
     start db
   else do
-    let employee = (Employee employeeId ssn name (read age) role)
+    let employee = (Employee employeeId ssn name role)
 
-    DB.entityToFile employee "funcionario.txt" "empId.txt"
+    DB.entityToFile employee "funcionario.txt" "funcionarioId.txt"
     let newDB = db {DB.employees = employees ++ [employee], DB.currentIdEmployee = employeeId}
     
     clear
-    putStr "Dono cadastrado com sucesso!"
+    putStr "Administrador cadastrado com sucesso!"
     putStr $ show employee
     waitThreeSeconds
 
@@ -62,100 +50,128 @@ registerEmployee db ownerInteraction ownerId = do
 
   let employeeId = (DB.currentIdEmployee db) + 1
 
-  [ssn, name, age] <- getCredentials employees
+  [ssn, name] <- getCredentials employees
   
-  role <- getRole 
-  let employee = (Employee employeeId ssn name (read age) role)
+  let role = "Mecânico" 
+  let employee = (Employee employeeId ssn name role)
 
-  DB.entityToFile employee "funcionario.txt" "empId.txt"
+  DB.entityToFile employee "funcionario.txt" "funcionarioId.txt"
   let newDB = db {DB.employees = employees ++ [employee], DB.currentIdEmployee = employeeId}
   
   clear
-  putStr "Funcionário cadastrado com sucesso!"
+  putStr "Mecânico cadastrado com sucesso!"
   putStr $ show employee
   waitThreeSeconds
 
   ownerInteraction newDB ownerId
 
-registerCandy :: DB -> Interaction -> Int -> IO ()
-registerCandy db ownerInteraction ownerId = do
-  let candies = (DB.candies db)
-  let candyId = (DB.currentIdCandy db) + 1
+-- SERVICO
 
-  name <- input "Nome do doce: "
-  description <- input "Descrição: "
-  price <- input "Preço: "
+registerServico :: DB -> Interaction -> Int -> IO ()
+registerServico db ownerInteraction ownerId = do
+  let servicos = (DB.servicos db)
+  let clientes = (DB.customers db)
+  let funcionarios = (DB.employees db)
+  let servicoId = (DB.currentIdServico db) + 1
 
-  let defaultScoreCandy = 5
-  let candy = (Candy candyId name description (read price) defaultScoreCandy)
+  clienteID <- input "ID do cliente: "
+  if not $ existsEntity clientes (read clienteID) then do
+    putStr "Não há um cliente com esse ID.\n"
+    waitTwoSeconds
+    clear
+    ownerInteraction db ownerId
 
-  DB.entityToFile candy "doce.txt" "candyId.txt"
-  let newDB = db {DB.candies = addCandy candy candies, DB.currentIdCandy = candyId}
+  else do 
+    modelo <- input "Modelo do veículo: "
+    placa <- input "Placa do veículo: "
+    mecanicoID <- input "ID do mecânico: "
+
+    if not $ existsEntity funcionarios (read mecanicoID) then do
+
+      putStr "Mecânico inexistente...\n"
+      waitTwoSeconds
+      clear
+      ownerInteraction db ownerId
+
+    else do 
+      status <- input "Status do serviço: "
+      valorTotal <- input "Valor do serviço: "
+
+      let servico = (Servico servicoId (read clienteID) modelo placa (read mecanicoID) status (read valorTotal))
+
+      DB.entityToFile servico "servico.txt" "servicoId.txt"
+      let newDB = db {DB.servicos = addServico servico servicos, DB.currentIdServico = servicoId}
+      
+      clear
+      putStr "Servico cadastrado com sucesso!"
+      putStr $ show servico
+      waitThreeSeconds
+
+      ownerInteraction newDB ownerId
+
+deleteService :: Int -> [Servico] -> [Servico]
+deleteService id servicos = [c | c <- servicos, (Servico.cod c) /= id]
+
+removeServico :: DB -> Interaction -> Int -> IO ()
+removeServico db ownerInteraction ownerId = do
+  let servicos = (DB.servicos db)
+  let clientes = (DB.customers db)
+  let funcionarios = (DB.employees db)
+
+  serviceID <- input "ID do serviço a ser excluído: "
+  if not $ existsEntity servicos (read serviceID) then do
+    putStr "Não há um serviço com esse ID.\n"
+    waitTwoSeconds
+    clear
+    ownerInteraction db ownerId
+
+  else do 
+    -- modelo <- input "Novo modelo do veículo: "
+    -- placa <- input "Nova placa do veículo: "
+    -- mecanicoID <- input "Novo ID do mecânico: "
+
+    -- if not $ existsEntity funcionarios (read mecanicoID) then do
+
+    --   putStr "Mecânico inexistente...\n"
+    --   waitTwoSeconds
+    --   clear
+    --   ownerInteraction db ownerId
+
+    -- else do 
+      -- status <- input "Novo status do serviço: "
+      -- valorTotal <- input "Novo valor do serviço: "
+
+      -- let servico = (Servico serviceID (read clienteID) modelo placa (read mecanicoID) status (read valorTotal))
+
+    --print $ getEntityById servicos (read serviceID) 
+    let newServiceList = deleteService (read serviceID) servicos
+    putStr "Serviço removido com sucesso.\n"
+    waitThreeSeconds
+    DB.writeToFile "servico.txt" newServiceList
   
-  clear
-  putStr "Doce cadastrado com sucesso!"
-  putStr $ show candy
-  waitThreeSeconds
-
-  ownerInteraction newDB ownerId
-
-removeCandy :: DB -> Interaction -> Int -> IO ()
-removeCandy db ownerInteraction ownerId = do
-  let candies = (DB.candies db)
-  existsEntityWithMsg candies "Não há doces presentes no sistema." (ownerInteraction db ownerId)
-  candyId <- input "ID: "
-  if not $ existsEntity candies (read candyId) then do
-    putStr "Doce não cadastrado.\n"
-    waitTwoSeconds
-    ownerInteraction db ownerId
-  else do
-    print $ getEntityById candies (read candyId) 
-    let newCandyList = deleteCandy (read candyId) candies
-    putStr "Doce removido com sucesso.\n"
-    waitThreeSeconds
-    DB.writeToFile "doce.txt" newCandyList
-
-    let newDB = db {DB.candies = newCandyList}
+    let newDB = db {DB.servicos = newServiceList}
     ownerInteraction newDB ownerId
+  
+      -- else do
+      --   print $ getEntityById drinks (read drinkId) 
+      --   let newDrinkList = deleteDrink (read drinkId) drinks
+      --   putStr "Bebida removida com sucesso.\n"
+      --   waitThreeSeconds
+      --   DB.writeToFile "bebida.txt" newDrinkList
+  
+      --   let newDB = db {DB.drinks = newDrinkList}
+      --   ownerInteraction newDB ownerId
 
-registerDrink :: DB -> Interaction -> Int -> IO()
-registerDrink db ownerInteraction ownerId = do
-  let drinks = (DB.drinks db)
-  let drinkId = (DB.currentIdDrink db) + 1
+    -- let newDB = db {DB.drinks = newDrinkList}
 
-  name <- input "Nome: "
-  description <- input "Descrição: "
-  price <- input "Preço: "
+    --   DB.entityToFile servico "servico.txt" "servicoId.txt"
+    --   let newDB = db {DB.servicos = addServico servico servicos, DB.currentIdServico = servicoId}
+      
+    --   clear
+    --   putStr "Servico cadastrado com sucesso!"
+    --   putStr $ show servico
+    --   waitThreeSeconds
 
-  let defaultScoreDrink = 5
-  let drink = (Drink drinkId name description (read price) defaultScoreDrink)
+    --   ownerInteraction newDB ownerId
 
-  DB.entityToFile drink "bebida.txt" "drinkId.txt"
-  let newDB = db {DB.drinks = addDrink drink drinks, DB.currentIdDrink = drinkId}
-
-  clear
-  putStr "Bebida cadastrada com sucesso!"
-  putStr $ show drink
-  waitThreeSeconds
-  clear
-
-  ownerInteraction newDB ownerId
-
-removeDrink :: DB -> Interaction -> Int -> IO ()
-removeDrink db ownerInteraction ownerId = do
-  let drinks = (DB.drinks db)
-  existsEntityWithMsg drinks "Não há bebidas presentes no sistema." (ownerInteraction db ownerId)
-  drinkId <- input "ID: "
-  if not $ existsEntity drinks (read drinkId) then do
-    putStr "Bebida não cadastrada.\n"
-    waitTwoSeconds
-    ownerInteraction db ownerId
-  else do
-    print $ getEntityById drinks (read drinkId) 
-    let newDrinkList = deleteDrink (read drinkId) drinks
-    putStr "Bebida removida com sucesso.\n"
-    waitThreeSeconds
-    DB.writeToFile "bebida.txt" newDrinkList
-
-    let newDB = db {DB.drinks = newDrinkList}
-    ownerInteraction newDB ownerId
+-- DRINKS

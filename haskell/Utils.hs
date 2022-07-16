@@ -1,8 +1,5 @@
 module Utils where
 
-import Candy
-import Drink
-
 import System.IO ( hFlush, stdout )
 import System.Process
 
@@ -36,6 +33,7 @@ displayEntity entities msg = do
     putStr $ showList' entities
   else do
     putStr $ "Não há " ++ msg ++ " presentes no sistema.\n"
+
 
 getEntityById :: Entity e => [e] -> Int -> e
 getEntityById entities id = head [e | e <- entities, entityId e == id]
@@ -71,12 +69,8 @@ showList' [] = ""
 showList' (x:xs) = (show x) ++ showList' xs
 
 -- just to avoid circular import
-listOfStringToListOfCandy l = map read l :: [Candy]
-listOfStringToListOfDrink l = map read l :: [Drink]
 stringToListOfString str = read str :: [String]
 
-stringToListOfCandies str = listOfStringToListOfCandy $ stringToListOfString str
-stringToListOfDrinks str = listOfStringToListOfDrink $ stringToListOfString str
 
 listOfStringToString [] = ""
 listOfStringToString (x:xs) = x ++ "," ++ listOfStringToString xs
@@ -91,11 +85,7 @@ findElem' (x:xs) elem index
 findFirstOcurr str elem = findElem' str elem 0
 
 getQuantityItem str = read (take ((findFirstOcurr str ',')) str) :: Int
-stringToDrink str = read (drop ((findFirstOcurr str ',') + 1) str) :: Drink
-stringToCandy str = read (drop ((findFirstOcurr str ',') + 1) str) :: Candy
 
-stringToTupleOfDrinks str = (getQuantityItem str, stringToDrink str)
-stringToTupleOfCandies str = (getQuantityItem str, stringToCandy str)
 
 listOfTupleToListOfString :: (Show a, Stringfy b) => [(a, b)] -> [String]
 listOfTupleToListOfString [] = []
