@@ -1,77 +1,77 @@
-module OwnerInteraction where
+module AdminInteraction where
 
 import DB
 import Utils
-import Employee
+import Funcionario
 import Servico
-import Customer
+import Cliente
 import ServicoMenu
 
-getCredentials :: [Employee] -> IO [String]
-getCredentials employees = do
+getCredentials :: [Funcionario] -> IO [String]
+getCredentials funcionarios = do
   ssn <- input "CPF: "
-  if existsPerson employees ssn then do
+  if existsPerson funcionarios ssn then do
     putStr "CPF já cadastrado.\n"
     waitTwoSeconds
-    getCredentials employees
+    getCredentials funcionarios
   else do
     name <- input "Nome: "
     return [ssn,name]
 
-registerOwner :: DB -> (DB -> IO()) -> IO ()
-registerOwner db start = do
-  let employees = DB.employees db
+registerAdmin :: DB -> (DB -> IO()) -> IO ()
+registerAdmin db start = do
+  let funcionarios = DB.funcionarios db
 
-  let employeeId = (DB.currentIdEmployee db) + 1
+  let funcionarioId = (DB.currentIdFuncionario db) + 1
 
-  [ssn, name] <- getCredentials employees
+  [ssn, name] <- getCredentials funcionarios
   let role = "Administrador"
 
-  if existsPerson employees ssn then do
+  if existsPerson funcionarios ssn then do
     putStr "CPF já cadastrado.\n"
     waitTwoSeconds
     start db
   else do
-    let employee = (Employee employeeId ssn name role)
+    let funcionario = (Funcionario funcionarioId ssn name role)
 
-    DB.entityToFile employee "funcionario.txt" "funcionarioId.txt"
-    let newDB = db {DB.employees = employees ++ [employee], DB.currentIdEmployee = employeeId}
+    DB.entityToFile funcionario "funcionario.txt" "funcionarioId.txt"
+    let newDB = db {DB.funcionarios = funcionarios ++ [funcionario], DB.currentIdFuncionario = funcionarioId}
     
     clear
     putStr "Administrador cadastrado com sucesso!"
-    putStr $ show employee
+    putStr $ show funcionario
     waitThreeSeconds
 
     start newDB
 
-registerEmployee :: DB -> Interaction -> Int -> IO ()
-registerEmployee db ownerInteraction ownerId = do
-  let employees = DB.employees db
+registerFuncionario :: DB -> Interaction -> Int -> IO ()
+registerFuncionario db adminInteraction adminId = do
+  let funcionarios = DB.funcionarios db
 
-  let employeeId = (DB.currentIdEmployee db) + 1
+  let funcionarioId = (DB.currentIdFuncionario db) + 1
 
-  [ssn, name] <- getCredentials employees
+  [ssn, name] <- getCredentials funcionarios
   
   let role = "Mecânico" 
-  let employee = (Employee employeeId ssn name role)
+  let funcionario = (Funcionario funcionarioId ssn name role)
 
-  DB.entityToFile employee "funcionario.txt" "funcionarioId.txt"
-  let newDB = db {DB.employees = employees ++ [employee], DB.currentIdEmployee = employeeId}
+  DB.entityToFile funcionario "funcionario.txt" "funcionarioId.txt"
+  let newDB = db {DB.funcionarios = funcionarios ++ [funcionario], DB.currentIdFuncionario = funcionarioId}
   
   clear
   putStr "Mecânico cadastrado com sucesso!"
-  putStr $ show employee
+  putStr $ show funcionario
   waitThreeSeconds
 
-  ownerInteraction newDB ownerId
+  adminInteraction newDB adminId
 
 -- SERVICO
 
 registerServico :: DB -> Interaction -> Int -> IO ()
-registerServico db ownerInteraction ownerId = do
+registerServico db adminInteraction adminId = do
   let servicos = (DB.servicos db)
-  let clientes = (DB.customers db)
-  let funcionarios = (DB.employees db)
+  let clientes = (DB.clientes db)
+  let funcionarios = (DB.funcionarios db)
   let servicoId = (DB.currentIdServico db) + 1
 
   clienteID <- input "ID do cliente: "
@@ -79,7 +79,7 @@ registerServico db ownerInteraction ownerId = do
     putStr "Não há um cliente com esse ID.\n"
     waitTwoSeconds
     clear
-    ownerInteraction db ownerId
+    adminInteraction db adminId
 
   else do 
     modelo <- input "Modelo do veículo: "
@@ -91,7 +91,7 @@ registerServico db ownerInteraction ownerId = do
       putStr "Mecânico inexistente...\n"
       waitTwoSeconds
       clear
-      ownerInteraction db ownerId
+      adminInteraction db adminId
 
     else do 
       status <- input "Status do serviço: "
@@ -107,23 +107,23 @@ registerServico db ownerInteraction ownerId = do
       putStr $ show servico
       waitThreeSeconds
 
-      ownerInteraction newDB ownerId
+      adminInteraction newDB adminId
 
 deleteService :: Int -> [Servico] -> [Servico]
 deleteService id servicos = [c | c <- servicos, (Servico.cod c) /= id]
 
 removeServico :: DB -> Interaction -> Int -> IO ()
-removeServico db ownerInteraction ownerId = do
+removeServico db adminInteraction adminId = do
   let servicos = (DB.servicos db)
-  let clientes = (DB.customers db)
-  let funcionarios = (DB.employees db)
+  let clientes = (DB.clientes db)
+  let funcionarios = (DB.funcionarios db)
 
   serviceID <- input "ID do serviço a ser excluído: "
   if not $ existsEntity servicos (read serviceID) then do
     putStr "Não há um serviço com esse ID.\n"
     waitTwoSeconds
     clear
-    ownerInteraction db ownerId
+    adminInteraction db adminId
 
   else do 
     -- modelo <- input "Novo modelo do veículo: "
@@ -135,7 +135,7 @@ removeServico db ownerInteraction ownerId = do
     --   putStr "Mecânico inexistente...\n"
     --   waitTwoSeconds
     --   clear
-    --   ownerInteraction db ownerId
+    --   adminInteraction db adminId
 
     -- else do 
       -- status <- input "Novo status do serviço: "
@@ -150,7 +150,7 @@ removeServico db ownerInteraction ownerId = do
     DB.writeToFile "servico.txt" newServiceList
   
     let newDB = db {DB.servicos = newServiceList}
-    ownerInteraction newDB ownerId
+    adminInteraction newDB adminId
   
       -- else do
       --   print $ getEntityById drinks (read drinkId) 
@@ -160,7 +160,7 @@ removeServico db ownerInteraction ownerId = do
       --   DB.writeToFile "bebida.txt" newDrinkList
   
       --   let newDB = db {DB.drinks = newDrinkList}
-      --   ownerInteraction newDB ownerId
+      --   adminInteraction newDB adminId
 
     -- let newDB = db {DB.drinks = newDrinkList}
 
@@ -172,6 +172,6 @@ removeServico db ownerInteraction ownerId = do
     --   putStr $ show servico
     --   waitThreeSeconds
 
-    --   ownerInteraction newDB ownerId
+    --   adminInteraction newDB adminId
 
 -- DRINKS
