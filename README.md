@@ -10,11 +10,7 @@
 ## 📌 Indíce
 
 - [Especificação](#sobre)
-- [Iniciando](#exe)
-- [Tecnologias Usadas](#tecnologias-usadas)
-- [TODO](./TODO.md)
-- [Contribuindo](./CONTRIBUTING.md)
-- [Desenvolvedores](#desenvolvedores)
+- [Intruções para execução](#exe)
 
 ## 📖 Especificação <a name = "sobre"></a>
 
@@ -31,7 +27,7 @@ Para a execução do projeto é necessário obter as seguintes isntalações
 - [Plataforma Haskell](https://www.haskell.org/downloads/)
 - Pacote `cabal` para instalar as bibliotecas `split` e `strict`
 
-### Obsservações
+### Observações
 
 São necessários alguns cuidados ao iniciar a execução do projeto "zerado". Neste caso, entende-se por "zerado" o cenário em que os arquivos de armazenamento estão vazios, ou seja, sem nenhum registro. Logo, é necessário:
 - Os arquivos que armazenam id ([nomeDoArquivo]Id.txt) devem ser inicializados com o valor 0 e sem linhas em branco após esse valor para que esse valor seja atualizado devidamente no decorrer da execução do programa
