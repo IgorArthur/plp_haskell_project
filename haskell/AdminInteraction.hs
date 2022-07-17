@@ -1,5 +1,7 @@
 module AdminInteraction where
 
+import Data.Char
+import Chat
 import DB
 import Utils
 import Funcionario
@@ -94,10 +96,11 @@ registerServico db adminInteraction adminId = do
       adminInteraction db adminId
 
     else do 
-      status <- input "Status do serviço: "
+      let status = "EM ESPERA"
+      descricao <- input "Descrição do serviço: "
       valorTotal <- input "Valor do serviço: "
 
-      let servico = (Servico servicoId (read clienteID) modelo placa (read mecanicoID) status (read valorTotal))
+      let servico = (Servico servicoId (read clienteID) modelo placa (read mecanicoID) descricao status (read valorTotal))
 
       DB.entityToFile servico "servico.txt" "servicoId.txt"
       let newDB = db {DB.servicos = addServico servico servicos, DB.currentIdServico = servicoId}
@@ -109,8 +112,6 @@ registerServico db adminInteraction adminId = do
 
       adminInteraction newDB adminId
 
-deleteService :: Int -> [Servico] -> [Servico]
-deleteService id servicos = [c | c <- servicos, (Servico.cod c) /= id]
 
 removeServico :: DB -> Interaction -> Int -> IO ()
 removeServico db adminInteraction adminId = do
@@ -126,25 +127,7 @@ removeServico db adminInteraction adminId = do
     adminInteraction db adminId
 
   else do 
-    -- modelo <- input "Novo modelo do veículo: "
-    -- placa <- input "Nova placa do veículo: "
-    -- mecanicoID <- input "Novo ID do mecânico: "
-
-    -- if not $ existsEntity funcionarios (read mecanicoID) then do
-
-    --   putStr "Mecânico inexistente...\n"
-    --   waitTwoSeconds
-    --   clear
-    --   adminInteraction db adminId
-
-    -- else do 
-      -- status <- input "Novo status do serviço: "
-      -- valorTotal <- input "Novo valor do serviço: "
-
-      -- let servico = (Servico serviceID (read clienteID) modelo placa (read mecanicoID) status (read valorTotal))
-
-    --print $ getEntityById servicos (read serviceID) 
-    let newServiceList = deleteService (read serviceID) servicos
+    let newServiceList = deleteServico (read serviceID) servicos
     putStr "Serviço removido com sucesso.\n"
     waitThreeSeconds
     DB.writeToFile "servico.txt" newServiceList
@@ -152,26 +135,69 @@ removeServico db adminInteraction adminId = do
     let newDB = db {DB.servicos = newServiceList}
     adminInteraction newDB adminId
   
-      -- else do
-      --   print $ getEntityById drinks (read drinkId) 
-      --   let newDrinkList = deleteDrink (read drinkId) drinks
-      --   putStr "Bebida removida com sucesso.\n"
-      --   waitThreeSeconds
-      --   DB.writeToFile "bebida.txt" newDrinkList
-  
-      --   let newDB = db {DB.drinks = newDrinkList}
-      --   adminInteraction newDB adminId
+     
+-- STATUS
 
-    -- let newDB = db {DB.drinks = newDrinkList}
+updateStatus :: DB -> Interaction -> Int -> IO ()
+updateStatus db adminInteraction adminId = do
+  clear
+  let list = (DB.servicos db)
+  --verifca se existe servicos
+  if not $ null list then do
+    displayEntity list ""
 
-    --   DB.entityToFile servico "servico.txt" "servicoId.txt"
-    --   let newDB = db {DB.servicos = addServico servico servicos, DB.currentIdServico = servicoId}
-      
-    --   clear
-    --   putStr "Servico cadastrado com sucesso!"
-    --   putStr $ show servico
-    --   waitThreeSeconds
+    option <- input "\nSelecione o id do servico: "
 
-    --   adminInteraction newDB adminId
+    -- Verifica se a entrada é um inteiro válido
+    if (all isNumber option) == False then do  
+      putStr "\nDigite uma entrada válida."
+      updateStatus db adminInteraction adminId
+    else do
+      let servicoID = read option
+      updateService db adminInteraction adminId servicoID
 
--- DRINKS
+  else do
+    putStr "Não há servicos cadastrados no momento.\n"
+    waitThreeSeconds
+    adminInteraction db adminId
+
+
+updateService :: DB -> Interaction -> Int -> Int -> IO ()
+updateService db adminInteraction adminId servicoID = do
+  clear
+  -- verifica se o ID existe
+  if existsEntity (DB.servicos db) servicoID then do    
+    let servico = getEntityById (DB.servicos db) servicoID
+
+    putStr statusOptions
+
+    entrada <- input "\nSelecione o status: "
+    let option = read entrada
+
+    if option `elem` [1..5] then do
+      let status = setStatus option
+      -- cria um novo servico com o novo status
+      let modServico = (Servico (Servico.cod servico) (Servico.clienteID servico) (Servico.modelo servico) (Servico.placa servico) (Servico.mecanicoID servico) (Servico.descricao servico) status (Servico.valorTotal servico))
+
+      -- Pega a lista de servicos menos o do ID selecionado, e adiciona o novo servico com o status atualizado
+      let servicosAtuais = [s | s <- (DB.servicos db), (Servico.cod s) /= servicoID]
+      let novosServicos = addServico modServico servicosAtuais
+
+      -- escreve no arquivo a nova lista atualizada
+      DB.writeToFile "servico.txt" novosServicos
+      let newDB = db {DB.servicos = novosServicos}
+
+      putStr "\nStatus Atualizado com sucesso!!\n"
+      waitTwoSeconds
+      adminInteraction newDB adminId    
+    else do
+      putStr "Status inválido"
+      updateService db adminInteraction adminId servicoID
+    
+
+  else do
+    putStr "\nID de servico não existe.\n"
+    waitTwoSeconds
+    adminInteraction db adminId
+
+

@@ -73,8 +73,18 @@ adminInteraction db adminId = do
       else if number == 3 then do
         registerServico db adminInteraction adminId
       else if number == 4 then do
-        removeServico db adminInteraction adminId
+        clear
+        displayEntity (DB.servicos db) "servicos"
+        voltar adminInteraction db adminId
       else if number == 5 then do
+        removeServico db adminInteraction adminId
+      else if number == 6 then do
+        updateStatus db adminInteraction adminId
+      else if number == 7 then do
+        clear
+        displayEntity (DB.clientes db) "clientes"
+        voltar adminInteraction db adminId
+      else if number == 8 then do
         start db
       else do
         adminInteraction db adminId
@@ -141,6 +151,18 @@ funcionarioInteraction db funcionarioId = do
       clear
       registerCliente db funcionarioInteraction funcionarioId
     else if num == 3 then do
+      clear
+      displayEntity (DB.servicos db) "servicos"
+      voltar funcionarioInteraction db funcionarioId
+    else if num == 4 then do
+      updateStatus db funcionarioInteraction funcionarioId
+    else if num == 5 then do
       start db
     else do
       funcionarioInteraction db funcionarioId
+
+
+voltar :: Interaction -> DB -> Int -> IO()
+voltar interaction db id = do
+  input "\nDigite algo para voltar: "
+  interaction db id

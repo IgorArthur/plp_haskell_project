@@ -1,2 +1,0 @@
-1,12543,Cliente,R dos Bobos
-2,18764,Cliente teste,R dos Avelozes

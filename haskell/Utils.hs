@@ -32,7 +32,7 @@ displayEntity entities msg = do
   if not $ null entities then do
     putStr $ showList' entities
   else do
-    putStr $ "Não há " ++ msg ++ " presentes no sistema.\n"
+    putStr $ "Não há " ++ msg ++ " registrados :(\n"
 
 
 getEntityById :: Entity e => [e] -> Int -> e

@@ -24,8 +24,11 @@ adminOptions = "\n--------------------------\n" ++
                "\n(1) Cadastrar mecânico\n" ++
                "(2) Cadastrar cliente\n" ++
                "(3) Cadastrar serviço\n" ++
-               "(4) Excluir serviço\n" ++
-               "(5) Voltar\n" ++
+               "(4) ver serviços\n" ++
+               "(5) Excluir serviço\n" ++
+               "(6) Atualizar status de um serviço\n" ++
+               "(7) Ver clientes\n" ++
+               "(8) Voltar\n" ++
                "\n-----------------------\n"
 
 clienteOptions :: String
@@ -45,5 +48,18 @@ funcionarioOptions = "\n---------------------------------\n" ++
                   "\nO que você deseja fazer?\n" ++
                   "\n(1) Cadastrar serviço\n" ++
                   "(2) Cadastrar cliente\n" ++
-                  "(3) Voltar\n" ++
+                  "(3) Vizualizar servicos\n" ++
+                  "(4) Atualizar status de serviços\n" ++
+                  "(5) Voltar\n" ++
+                  "\n-----------------------\n"
+
+statusOptions :: String
+statusOptions = "\n---------------------------------\n" ++
+                  "Selecione o status do serviço" ++
+                  "\n---------------------------------\n" ++
+                  "\n(1) Em espera\n" ++
+                  "(2) Iniciado\n" ++
+                  "(3) Em espera\n" ++
+                  "(4) Veículo em testes\n" ++
+                  "(5) Encerrado\n" ++
                   "\n-----------------------\n"
