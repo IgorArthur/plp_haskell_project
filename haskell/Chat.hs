@@ -22,13 +22,14 @@ adminOptions = "\n--------------------------\n" ++
                "\n--------------------------\n" ++
                "\nO que você deseja fazer?\n" ++
                "\n(1) Cadastrar mecânico\n" ++
-               "(2) Cadastrar cliente\n" ++
-               "(3) Cadastrar serviço\n" ++
-               "(4) ver serviços\n" ++
-               "(5) Excluir serviço\n" ++
-               "(6) Atualizar status de um serviço\n" ++
-               "(7) Ver clientes\n" ++
-               "(8) Voltar\n" ++
+               "(2) ver funcionarios\n" ++
+               "(3) Cadastrar cliente\n" ++
+               "(4) Cadastrar serviço\n" ++
+               "(5) ver serviços\n" ++
+               "(6) Excluir serviço\n" ++
+               "(7) Atualizar status de um serviço\n" ++
+               "(8) Ver clientes\n" ++
+               "(9) Voltar\n" ++
                "\n-----------------------\n"
 
 clienteOptions :: String

@@ -69,22 +69,26 @@ adminInteraction db adminId = do
       if number == 1 then do
         registerFuncionario db adminInteraction adminId
       else if number == 2 then do
-        registerCliente db adminInteraction adminId
+        clear
+        displayEntity (DB.funcionarios db) ""
+        voltar adminInteraction db adminId
       else if number == 3 then do
-        registerServico db adminInteraction adminId
+        registerCliente db adminInteraction adminId
       else if number == 4 then do
+        registerServico db adminInteraction adminId
+      else if number == 5 then do
         clear
         displayEntity (DB.servicos db) "servicos"
         voltar adminInteraction db adminId
-      else if number == 5 then do
-        removeServico db adminInteraction adminId
       else if number == 6 then do
-        updateStatus db adminInteraction adminId
+        removeServico db adminInteraction adminId
       else if number == 7 then do
+        updateStatus db adminInteraction adminId
+      else if number == 8 then do
         clear
         displayEntity (DB.clientes db) "clientes"
         voltar adminInteraction db adminId
-      else if number == 8 then do
+      else if number == 9 then do
         start db
       else do
         adminInteraction db adminId
