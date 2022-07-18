@@ -2,8 +2,8 @@ module DB where
 
 import qualified System.IO.Strict as SIO
 
-import Employee
-import Customer
+import Funcionario
+import Cliente
 import TypeClasses
 import Utils
 import Servico
@@ -11,16 +11,16 @@ import Servico
 type Interaction = (DB -> Int -> IO ())
 
 data DB = DB {
-  employees :: [Employee],
-  customers :: [Customer],
+  funcionarios :: [Funcionario],
+  clientes :: [Cliente],
   servicos :: [Servico],
-  currentIdEmployee :: Int,
-  currentIdCustomer :: Int,
+  currentIdFuncionario :: Int,
+  currentIdCliente :: Int,
   currentIdServico :: Int
 } deriving (Show)
 
-listOfStringToListOfEmployees l = map read l :: [Employee]
-listOfStringToListOfCustomers l = map read l :: [Customer]
+listOfStringToListOfFuncionarios l = map read l :: [Funcionario]
+listOfStringToListOfClientes l = map read l :: [Cliente]
 listOfStringToListOfServicos l = map read l :: [Servico]
 stringToInt str = read str :: Int
 
@@ -42,20 +42,20 @@ entityToFile a entityFile idFile = do
 
 connect :: IO DB
 connect = do
-  employeesContent <- readFile' "funcionario.txt"
-  customersContent <- readFile' "cliente.txt"
+  funcionariosContent <- readFile' "funcionario.txt"
+  clientesContent <- readFile' "cliente.txt"
   servicosContent <- readFile' "servico.txt"
 
-  currentIdEmployeeContent <- readFile' "funcionarioId.txt"
-  currentIdCustomerContent <- readFile' "clienteId.txt"
+  currentIdFuncionarioContent <- readFile' "funcionarioId.txt"
+  currentIdClienteContent <- readFile' "clienteId.txt"
   currentIdServicoContent <- readFile' "servicoId.txt"
 
-  let employees = listOfStringToListOfEmployees $ splitForFile $ employeesContent
-  let customers = listOfStringToListOfCustomers $ splitForFile $ customersContent
+  let funcionarios = listOfStringToListOfFuncionarios $ splitForFile $ funcionariosContent
+  let clientes = listOfStringToListOfClientes $ splitForFile $ clientesContent
   let servicos = listOfStringToListOfServicos $ splitForFile $ servicosContent
 
-  let currentIdEmployee = stringToInt currentIdEmployeeContent
-  let currentIdCustomer = stringToInt currentIdCustomerContent
+  let currentIdFuncionario = stringToInt currentIdFuncionarioContent
+  let currentIdCliente = stringToInt currentIdClienteContent
   let currentIdServico = stringToInt currentIdServicoContent
 
-  return (DB employees customers servicos currentIdEmployee currentIdCustomer currentIdServico) 
+  return (DB funcionarios clientes servicos currentIdFuncionario currentIdCliente currentIdServico) 
