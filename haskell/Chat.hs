@@ -22,13 +22,13 @@ adminOptions = "\n--------------------------\n" ++
                "\n--------------------------\n" ++
                "\nO que você deseja fazer?\n" ++
                "\n(1) Cadastrar mecânico\n" ++
-               "(2) ver funcionarios\n" ++
+               "(2) Visualizar funcionarios\n" ++
                "(3) Cadastrar cliente\n" ++
                "(4) Cadastrar serviço\n" ++
-               "(5) ver serviços\n" ++
+               "(5) Visualizar serviços\n" ++
                "(6) Excluir serviço\n" ++
                "(7) Atualizar status de um serviço\n" ++
-               "(8) Ver clientes\n" ++
+               "(8) Vizualizar clientes\n" ++
                "(9) Voltar\n" ++
                "\n-----------------------\n"
 
@@ -60,7 +60,7 @@ statusOptions = "\n---------------------------------\n" ++
                   "\n---------------------------------\n" ++
                   "\n(1) Em espera\n" ++
                   "(2) Iniciado\n" ++
-                  "(3) Em espera\n" ++
+                  "(3) Em pausa\n" ++
                   "(4) Veículo em testes\n" ++
                   "(5) Encerrado\n" ++
                   "\n-----------------------\n"
