@@ -1,0 +1,8 @@
+:- dynamic employee/5.
+
+employee(1, "707", "David", 22, "dono").
+employee(2, "888", "Igor", 20, "vendedor").
+employee(7, "990", "Andreza", 19, "Mecânico").
+employee(8, "645", "Braia", 23, "Mecânico").
+employee(9, "6172", "Vain", 34, "Mecânico").
+

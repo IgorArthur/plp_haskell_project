@@ -1,0 +1,4 @@
+:- dynamic drink_p/5.
+
+drink_p(3, "das", "das", 123, 5).
+
