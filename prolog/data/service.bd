@@ -1,0 +1,8 @@
+:- dynamic service/9.
+
+service(21, 10, "qwe", "qwe", 2, "yui", "Aberto", 123, 0).
+service(22, 16, "qwe", "rwe", 3, "ihoite", "Aberto", 321, 0).
+service(23, 10, "gyasd", "sdfa", 2, "iofsda", "Aberto", 421, 0).
+service(24, 16, "huads", "qowieu", 9, "hausid", "Aberto", 78912.9, 0).
+service(26, 16, "djsa", "d", 9, "d", "Aberto", 123, 5).
+
