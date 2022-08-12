@@ -1,0 +1,7 @@
+:- dynamic cliente/5.
+
+cliente(10, "907", "Maico", 53, "R.Dos Bobos, Num. - 0").
+cliente(16, "34565", "jose", 8, "rua do matagal").
+cliente(29, "76243", "vanzin", 45, "djklsjd").
+cliente(35, "2244", "t", 34, "ffdf").
+

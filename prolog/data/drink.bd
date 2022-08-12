@@ -1,4 +1,0 @@
-:- dynamic drink/5.
-
-drink(3, "das", "das", 123, 5).
-
