@@ -17,9 +17,9 @@ initCandyP :- dynamic candy_p/5.
 readCandyP :- consult('./data/candy_p.bd').
 startCandyP :- exists_file('./data/candy_p.bd') -> readCandyP ; initCandyP.
 writeCandyP :- tell('./data/candy_p.bd'), listing(candy_p), told.
-
+ 
 % ServiceID, Name, Description, Price, ScoreCandy
-initService :- dynamic service/5.
+initService :- dynamic service/9.
 readService :- consult('./data/service.bd').
 startService :- exists_file('./data/service.bd') -> readService ; initService.
 writeService :- tell('./data/service.bd'), listing(service), told.

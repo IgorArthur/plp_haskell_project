@@ -19,11 +19,11 @@ start :-
                 personController:registerOwner,
                 start);
    Op =:= 2 -> ((personController:existsSeller -> 
-                (utils:inputNumber("Digite o id do vendedor: ", EmployeeID),
+                (utils:inputNumber("Digite o id do mecânico: ", EmployeeID),
                 personController:existsEmployee(EmployeeID),
                 callEmployeeInteraction(EmployeeID);
-                writeln("\nNão existe vendedor com o ID informado."));
-                writeln("\nNão existe vendendores cadastrados.")),
+                writeln("\nNão existe mecânico com o ID informado."));
+                writeln("\nNão existem mecânicos cadastrados.")),
                 wait,
                 start);
    Op =:= 3 -> ((personController:existsCustomer(_)->
@@ -31,7 +31,7 @@ start :-
                 personController:existsCustomer(CustomerID),
                 customerInteraction(CustomerID);
                 writeln("\nNão existe cliente com o ID informado."));
-                writeln("\nNão existe clientes cadastrados.")),
+                writeln("\nNão existem clientes cadastrados.")),
                 wait,
                 start);
    Op =:= 4 -> writeln("\n\e[1mVolte sempre!\n\n\e[0m"), halt;
@@ -50,7 +50,7 @@ callOwnerInteraction :-
 callEmployeeInteraction(EmployeeID) :-
   personController:existsSellerByID(EmployeeID),
   employeeInteraction(EmployeeID);
-  writeln("\nO ID informado não pertence a um vendedor."),
+  writeln("\nO ID informado não pertence a um mecânico."),
   wait,
   start.
 
@@ -78,8 +78,8 @@ customerInteraction(CustomerID) :-
   chat:slogan,
   chat:customerOptions,
   utils:inputNumber("Opção: ", Op),
-  (Op =:= 1 -> clear, itemController:showServices, wait;
-   Op =:= 2 -> itemController:showCandyMenu;
+  (Op =:= 1 -> clear, itemController:showServicesClient(CustomerID), wait;
+   Op =:= 2 -> purchaseController:callAddAvaliacao, wait;
    Op =:= 3 -> start;
    customerInteraction(CustomerID)),
    customerInteraction(CustomerID);

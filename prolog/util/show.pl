@@ -11,18 +11,19 @@ showItem(ItemId, Name, Description, Price, ScoreItem) :-
   format('Preço: R$~2f~n', [Price]),
   writeln('-----------------------').
 
-showServe(ID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco) :-
+showServe(ID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, Avaliacao) :-
   writeln('\n-----------------------'),
   format('ID: ~d~n', [ID]),
-  format('Nome: ~w~n', [Nome]),
+  format('ID do cliente: ~w~n', [Nome]),
   format('Modelo: ~w~n', [Modelo]),
   format('Placa: ~w~n', [Placa]),
   format('Mecanico: ~w~n', [Mecanico]),
   format('Descrição: ~w~n', [Descricao]),
   format('Status: ~w~n', [Status]),
   format('Preço: R$~w~n', [Preco]),
+  format('Avaliação (0 - 5): ~w~n', [Avaliacao]),
   writeln('-----------------------').
-
+         
 showPurchase(PurchId, EmpId, CustId, Score, Price) :- 
   writeln('\n-----------------------'),
   format('ID da compra: ~d~n', [PurchId]),

@@ -48,7 +48,7 @@ ownerOptions :-
   writeln('(4) Cadastrar servico'),
   writeln('(5) Visualizar servicos'),
   writeln('(6) Excluir servico'),
-  writeln('(7) Listar doces - atualizar status de um servico'),
+  writeln('(7) Atualizar status de um servico'),
   writeln('(8) Vizualizar clientes'),
   writeln('(9) VOLTAR'),
   writeln('--------------------------').
@@ -58,8 +58,8 @@ customerOptions :-
   writeln('Funcionalidades do \e[1mCliente\e[0m       |'),
   writeln('----------------------------------'),
   writeln('O que você deseja fazer?'),
-  writeln('(1) Vizualizar servicos - Cliente vê apenas os servicos dele'),
-  writeln('(2) Exibir cardápio - avaliar servico'),
+  writeln('(1) Vizualizar servicos'),
+  writeln('(2) Avaliar servico'),
   writeln('(3) VOLTAR'),
   writeln('----------------------------------').
 
@@ -71,6 +71,6 @@ employeeOptions :-
   writeln('(1) Cadastrar servico'),
   writeln('(2) Cadastrar cliente'),
   writeln('(3) Vizualizar servicos'),
-  writeln('(4) Listar suas vendas - atualizar status de servico'),
+  writeln('(4) Atualizar status de servico'),
   writeln('(5) VOLTAR'),
   writeln('---------------------------------').

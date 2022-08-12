@@ -143,26 +143,27 @@ updateStatus(ServiceID) :-
     db:writeService,
     show:showServe(ServiceID, Nome, Modelo, Placa, Mecanico, Descricao, NewStatus, Preco)).
 
-makeServiceReview(ServiceID) :-
-  db:service(ServiceID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco),
-  (\+HasBeenReviwed -> 
-   utils:inputNumber("Digite a avaliação (VALOR INTEIRO ENTRE 0 E 5): ", NewScore),
-   (NewScore < 0 -> clear, writeln("\nA avaliação não pode ser negativa.\n"), makePurchaseReview(PurchaseID) ;
-    NewScore > 5 -> clear, writeln("\nA avaliação não pode ser maior que 5.\n"), makePurchaseReview(PurchaseID) ;
-    retract(db:purchase(PurchaseID, EmployeeID, CustId, Score, Price, HasBeenReviwed)),
-    assertz(db:purchase(PurchaseID, EmployeeID, CustId, NewScore, Price, true)),
-    db:writePurchase,
-    changeScoreCandies(PurchaseID, NewScore),
-    changeScoreDrinks(PurchaseID, NewScore),
-    showPurchase(PurchaseID)); 
-    writeln("\nEssa compra já foi avaliada")).
+callAddAvaliacao :-
+  utils:inputNumber("Digite o id do serviço: ", ServiceID),
+  db:service(ServiceID, _, _, _, _, _, _, _, _),
+  avaliarService(ServiceID);
+  writeln("\nNão existe serviço com ID informado.").
 
+avaliarService(ServiceID) :-
+  db:service(ServiceID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, Avaliacao),
+   utils:inputNumber("Digite a avaliação (VALOR INTEIRO ENTRE 0 E 5): ", NewScore),
+   (NewScore < 0 -> clear, writeln("\nA avaliação não pode ser negativa.\n"), avaliarService(ServiceID) ;
+    NewScore > 5 -> clear, writeln("\nA avaliação não pode ser maior que 5.\n"), avaliarService(ServiceID);
+    retract(db:service(ServiceID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, Avaliacao)),
+    assertz(db:service(ServiceID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, NewScore)),
+    db:writeService,
+    show:showServe(ServiceID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, NewScore)).
 
 makePurchaseReview(PurchaseID) :-
   db:purchase(PurchaseID, EmployeeID, CustId, Score, Price, HasBeenReviwed),
   (\+HasBeenReviwed -> 
    utils:inputNumber("Digite a avaliação (VALOR INTEIRO ENTRE 0 E 5): ", NewScore),
-   (NewScore < 0 -> clear, writeln("\nA avaliação não pode ser negativa.\n"), makePurchaseReview(PurchaseID) ;
+   (NewScore < 0 -> clear, writeln("\nA avaliação deve ser maior ou igual a 0.\n"), makePurchaseReview(PurchaseID) ;
     NewScore > 5 -> clear, writeln("\nA avaliação não pode ser maior que 5.\n"), makePurchaseReview(PurchaseID) ;
     retract(db:purchase(PurchaseID, EmployeeID, CustId, Score, Price, HasBeenReviwed)),
     assertz(db:purchase(PurchaseID, EmployeeID, CustId, NewScore, Price, true)),
