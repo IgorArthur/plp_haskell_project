@@ -9,4 +9,5 @@ funcionario(28, "7647", "hdj", 6, "Mecânico").
 funcionario(31, "7653723", "Vanderson", 34, "Mecânico").
 funcionario(32, "376237", "vanteste", 56, "Mecânico").
 funcionario(34, "5465", "jose", 4, "Mecânico").
+funcionario(38, "123", "sad", 32, "Mecânico").
 

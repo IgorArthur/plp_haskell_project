@@ -1,4 +1,4 @@
-:- module(userController, [registrarCliente/0, registrarFuncionario/0, showFuncionarios/0, showClientes/0]).
+:- module(adminController, [existsFuncionario/1, registrarCliente/0, registrarFuncionario/0, showFuncionarios/0, showClientes/0]).
 
 :- use_module('../persistence/db.pl').
 :- use_module('./util/utils.pl').
