@@ -10,17 +10,11 @@ existsCliente(ClienteID) :-
 existsFuncionario(FuncionarioID) :-
   db:funcionario(FuncionarioID, _, _, _, _).
 
-existsMecanico :-
-  db:funcionario(_, _, _, _, "Mecânico").
-
-existsMecanicoByID(FuncionarioID) :-
-  db:funcionario(FuncionarioID, _, _, _, "Mecânico").
-
 existsAdmin :-
-  db:funcionario(_, _, _, _, "dono").
+  db:funcionario(_, _, _, _, "administrador").
 
 existsAdminByID(AdminID) :-
-  db:funcionario(AdminID, _, _, _, "dono").
+  db:funcionario(AdminID, _, _, _, "administrador").
 
 saveUser(ID, Ssn, Name, Age, Address) :-
   db:assertz(cliente(ID, Ssn, Name, Age, Address)),
@@ -53,17 +47,17 @@ registrarFuncionario :-
   show:showFuncionario(ID, Ssn, Name, Age, Role))), utils:wait.
 
 registrarAdmin :-
-  writeln("\nNão existe dono!"),
-  utils:input("\nDeseja cadastrar um dono? [S - SIM ou qualquer letra para NÃO]: ", Op),
+  writeln("\nNão existe administrador!"),
+  utils:input("\nDeseja cadastrar um Administrador? [S - SIM ou qualquer letra para NÃO]: ", Op),
   upcase_atom(Op,'S'),
   utils:input("CPF: ", Ssn),
   registrarUser(Name, Age),
   db:nextId(ID),
-  db:assertz(funcionario(ID, Ssn, Name, Age, "dono")),
+  db:assertz(funcionario(ID, Ssn, Name, Age, "administrador")),
   clear,
   db:writeFuncionario,
-  writeln("Dono cadastrado com sucesso!\n"),
-  show:showFuncionario(ID, Ssn, Name, Age, "dono"),
+  writeln("Administrador cadastrado com sucesso!\n"),
+  show:showFuncionario(ID, Ssn, Name, Age, "administrador"),
   utils:wait;
   !.
 

@@ -8,11 +8,11 @@
 
 registrarServico :-
   utils:inputNumber("ID do cliente: ", Nome),
-  (userController: existsCliente(Nome) ->
+  (adminController: existsCliente(Nome) ->
   utils:input("Modelo do veículo: ", Modelo),
   utils:input("Placa: ", Placa),
   utils:inputNumber("Mecanico ID: ", Mecanico),
-  (userController:existsFuncionario(Mecanico) -> 
+  (adminController:existsFuncionario(Mecanico) -> 
   utils:input("Descrição: ", Descricao),
   utils:inputNumber("Valor Total: ", Preco),
   db:nextId(ID),

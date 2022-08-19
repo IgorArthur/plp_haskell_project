@@ -24,7 +24,7 @@ loginScreen :-
 
 opcoesAdmin :-
   writeln('--------------------------'),
-  writeln('Funcionalidades do \e[1mDono\e[0m  |'),
+  writeln('Funcionalidades do \e[1mAdministrador\e[0m  |'),
   writeln('--------------------------'),
   writeln('O que você deseja fazer?'),
   writeln('(1) Cadastrar mecânico'),
@@ -50,7 +50,7 @@ opcoesCliente :-
 
 opcoesFuncionario :-
   writeln('----------------------------------'),
-  writeln('Funcionalidades do \e[1mFuncionário\e[0m   |'),
+  writeln('Funcionalidades do \e[1mMecânico\e[0m   |'),
   writeln('----------------------------------'),
   writeln('O que você deseja fazer?'),
   writeln('(1) Cadastrar servico'),

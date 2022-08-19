@@ -1,15 +1,6 @@
-:- module(show, []).
+:- module(show, [showServe/9, showUser/3, showFuncionario/5, showCliente/5]).
 
 :- use_module('./persistence/db.pl').
-
-showItem(ItemId, Name, Description, Price, ScoreItem) :-
-  writeln('\n-----------------------'),
-  format('ID: ~d~n', [ItemId]),
-  format('Nome: ~w~n', [Name]),
-  format('Descrição: ~w~n', [Description]),
-  format('Avaliação (0 - 5): ~d~n', [ScoreItem]),
-  format('Preço: R$~2f~n', [Price]),
-  writeln('-----------------------').
 
 showServe(ID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, Avaliacao) :-
   writeln('\n-----------------------'),
