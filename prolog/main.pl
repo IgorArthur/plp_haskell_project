@@ -2,9 +2,9 @@
 :- use_module('./util/chat.pl').
 :- use_module('./util/show.pl').
 :- use_module('./persistence/db.pl').
-:- use_module('./controllers/purchaseController.pl').
-:- use_module('./controllers/personController.pl').
-:- use_module('./controllers/itemController.pl').
+:- use_module('./controllers/clienteController.pl').
+:- use_module('./controllers/adminController.pl').
+:- use_module('./controllers/servicoController.pl').
 
 main :-
   db:init,
@@ -14,22 +14,22 @@ start :-
   clear,
   chat:loginScreen,
   utils:inputNumber("Opção: ", Op),
-  (Op =:= 1 -> (personController:existsOwner,
-                callOwnerInteraction;
-                personController:registerOwner,
+  (Op =:= 1 -> (adminController:existsAdmin,
+                callAdminInteraction;
+                adminController:registrarAdmin,
                 start);
-   Op =:= 2 -> ((personController:existsSeller -> 
-                (utils:inputNumber("Digite o id do mecânico: ", EmployeeID),
-                personController:existsEmployee(EmployeeID),
-                callEmployeeInteraction(EmployeeID);
+   Op =:= 2 -> ((adminController:existsMecanico -> 
+                (utils:inputNumber("Digite o id do mecânico: ", FuncionarioID),
+                adminController:existsFuncionario(FuncionarioID),
+                callFuncionarioInteraction(FuncionarioID);
                 writeln("\nNão existe mecânico com o ID informado."));
                 writeln("\nNão existem mecânicos cadastrados.")),
                 wait,
                 start);
-   Op =:= 3 -> ((personController:existsCustomer(_)->
-                (utils:inputNumber("Digite o id do cliente: ", CustomerID),
-                personController:existsCustomer(CustomerID),
-                customerInteraction(CustomerID);
+   Op =:= 3 -> ((adminController:existsCliente(_)->
+                (utils:inputNumber("Digite o id do cliente: ", ClienteID),
+                adminController:existsCliente(ClienteID),
+                clienteInteraction(ClienteID);
                 writeln("\nNão existe cliente com o ID informado."));
                 writeln("\nNão existem clientes cadastrados.")),
                 wait,
@@ -39,63 +39,63 @@ start :-
    start;
    start.
 
-callOwnerInteraction :-
-  utils:inputNumber("Digite o id do administrador: ", OwnerID),
-  personController:existsOwnerByID(OwnerID),
-  ownerInteraction;
+callAdminInteraction :-
+  utils:inputNumber("Digite o id do administrador: ", AdminID),
+  adminController:existsAdminByID(AdminID),
+  adminInteraction;
   writeln("\nNão existe administrador com o ID informado."),
   wait,
   start.
 
-callEmployeeInteraction(EmployeeID) :-
-  personController:existsSellerByID(EmployeeID),
-  employeeInteraction(EmployeeID);
+callFuncionarioInteraction(FuncionarioID) :-
+  adminController:existsMecanicoByID(FuncionarioID),
+  funcionarioInteraction(FuncionarioID);
   writeln("\nO ID informado não pertence a um mecânico."),
   wait,
   start.
 
-ownerInteraction :-
+adminInteraction :-
   clear,
   chat:slogan,
-  chat:ownerOptions,
+  chat:opcoesAdmin,
   utils:inputNumber("Opção: ", Op),
-  (Op =:= 1 -> personController:registerEmployee;
-   Op =:= 2 -> personController:showEmployees, wait;
-   Op =:= 3 -> personController:registerCustomer;
-   Op =:= 4 -> itemController:registerService;
-   Op =:= 5 -> clear, itemController:showServices, wait;
-   Op =:= 6 -> itemController:callRemoveService, wait;
-   Op =:= 7 -> purchaseController:callUpdateStatus, wait;
-   Op =:= 8 -> personController:showCustomers, wait;
+  (Op =:= 1 -> adminController:registrarFuncionario;
+   Op =:= 2 -> adminController:showFuncionarios, wait;
+   Op =:= 3 -> adminController:registrarCliente;
+   Op =:= 4 -> servicoController:registrarServico;
+   Op =:= 5 -> clear, servicoController:showServicos, wait;
+   Op =:= 6 -> servicoController:callRemoveServico, wait;
+   Op =:= 7 -> servicoController:callAtualizarStatus, wait;
+   Op =:= 8 -> adminController:showClientes, wait;
    Op =:= 9 -> start;
-   ownerInteraction),
-   ownerInteraction;
-   ownerInteraction.
+   adminInteraction),
+   adminInteraction;
+   adminInteraction.
 
 
-customerInteraction(CustomerID) :-
+clienteInteraction(ClienteID) :-
   clear,
   chat:slogan,
-  chat:customerOptions,
+  chat:opcoesCliente,
   utils:inputNumber("Opção: ", Op),
-  (Op =:= 1 -> clear, itemController:showServicesClient(CustomerID), wait;
-   Op =:= 2 -> purchaseController:callAddAvaliacao, wait;
+  (Op =:= 1 -> clear, servicoController:showServicosClient(ClienteID), wait;
+   Op =:= 2 -> clienteController:callAddAvaliacao, wait;
    Op =:= 3 -> start;
-   customerInteraction(CustomerID)),
-   customerInteraction(CustomerID);
-   customerInteraction(CustomerID).
+   clienteInteraction(ClienteID)),
+   clienteInteraction(ClienteID);
+   clienteInteraction(ClienteID).
 
-employeeInteraction(EmployeeID) :-
+funcionarioInteraction(FuncionarioID) :-
   clear,
   chat:slogan,
-  personController:existsEmployee(EmployeeID),
-  chat:employeeOptions,
+  adminController:existsFuncionario(FuncionarioID),
+  chat:opcoesFuncionario,
   utils:inputNumber("Opção: ", Op),
-  (Op =:= 1 -> itemController:registerService;
-   Op =:= 2 -> personController:registerCustomer;
-   Op =:= 3 -> clear, itemController:showServices, wait;
-   Op =:= 4 -> purchaseController:showPurchasesByEmployee(EmployeeID), wait;
+  (Op =:= 1 -> servicoController:registrarServico;
+   Op =:= 2 -> adminController:registrarCliente;
+   Op =:= 3 -> clear, servicoController:showServicos, wait;
+   Op =:= 4 -> servicoController:callAtualizarStatus, wait;
    Op =:= 5 -> start;
-   employeeInteraction(EmployeeID)),
-   employeeInteraction(EmployeeID);
-   employeeInteraction(EmployeeID).
+   funcionarioInteraction(FuncionarioID)),
+   funcionarioInteraction(FuncionarioID);
+   funcionarioInteraction(FuncionarioID).

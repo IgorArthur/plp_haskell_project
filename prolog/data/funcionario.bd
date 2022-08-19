@@ -1,0 +1,13 @@
+:- dynamic funcionario/5.
+
+funcionario(1, "707", "David", 22, "dono").
+funcionario(2, "888", "Igor", 20, "vendedor").
+funcionario(7, "990", "Andreza", 19, "Mecânico").
+funcionario(8, "645", "Braia", 23, "Mecânico").
+funcionario(9, "6172", "Vain", 34, "Mecânico").
+funcionario(28, "7647", "hdj", 6, "Mecânico").
+funcionario(31, "7653723", "Vanderson", 34, "Mecânico").
+funcionario(32, "376237", "vanteste", 56, "Mecânico").
+funcionario(34, "5465", "jose", 4, "Mecânico").
+funcionario(38, "123", "sad", 32, "Mecânico").
+

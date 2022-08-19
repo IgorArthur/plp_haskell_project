@@ -1,5 +1,0 @@
-:- dynamic customer/5.
-
-customer(10, "907", "Maico", 53, "R.Dos Bobos, Num. - 0").
-customer(16, "34565", "jose", 8, "rua do matagal").
-
