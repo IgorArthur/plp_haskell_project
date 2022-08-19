@@ -13,6 +13,15 @@ existsFuncionario(FuncionarioID) :-
 existsAdmin :-
   db:funcionario(_, _, _, _, "administrador").
 
+existsMecanico :-
+  db:funcionario(_, _, _, _, "Mecânico").
+
+existsMecanicoByID(FuncionarioID) :-
+  db:funcionario(FuncionarioID, _, _, _, "Mecânico").
+
+existsAdmin :-
+  db:funcionario(_, _, _, _, "administrador").
+
 existsAdminByID(AdminID) :-
   db:funcionario(AdminID, _, _, _, "administrador").
 

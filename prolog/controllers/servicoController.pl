@@ -41,7 +41,8 @@ callRemoveServico :-
   (db:servico(_, _, _, _, _, _, _, _, _) ->
   (utils:inputNumber("Digite o id do servico: ", ServicoID),
   db:servico(ServicoID, _, _, _, _, _, _, _,_),
-  removeServico(ServicoID);
+  removeServico(ServicoID), 
+  writeln("\nServico removido com sucesso!");
   writeln("\nNão existe serviço com ID informado."));
   writeln("\nNão há serviços no sistema.")).
 
@@ -50,7 +51,6 @@ removeServico(ServicoID) :-
   retract(db:servico(ServicoID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, Avaliacao)),
   db:writeServico,
   clear,
-  writeln("\nServico removido com sucesso."),
   show:showServe(ServicoID, Nome, Modelo, Placa, Mecanico, Descricao, Status, Preco, Avaliacao).
 
 callAtualizarStatus :-
